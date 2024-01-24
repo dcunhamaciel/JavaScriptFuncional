@@ -1,0 +1,34 @@
+Array.prototype.myReduce = function(callback, valorInicial) {  
+    if (this.length === 0) {
+        return valorInicial
+    }
+
+    let valorAtual = this[0]
+
+    if (valorInicial) {
+        valorAtual = callback(valorInicial, this[0], 0, this)
+    }
+
+    for (let i = 1; i < this.length; i++) {
+        valorAtual = callback(valorAtual, this[i], i, this)
+    }
+
+    return valorAtual
+}
+
+const carrinho = [
+    { nome: 'Caneta', qtde: 10, preco: 7.99 },
+    { nome: 'Impressora', qtde: 0, preco: 649.50 },
+    { nome: 'Caderno', qtde: 4, preco: 27.10 },
+    { nome: 'Lápis', qtde: 3, preco: 5.82 },
+    { nome: 'Tesoura', qtde: 1, preco: 19.20 },
+]
+
+const getTotal = item => item.qtde * item.preco
+const somar = (acumulador, elemento) => acumulador + elemento
+
+const valorTotal = carrinho
+    .map(getTotal)
+    .myReduce(somar)
+
+console.log(valorTotal)
